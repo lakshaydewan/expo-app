@@ -41,8 +41,14 @@ export default function ProfileScreen() {
   }
 
   const handleLogout = async () => {
-    await AsyncStorage.removeItem('@user')
-    router.replace('/(auth)')
+    console.log('Logging out')
+    try {
+         await AsyncStorage.clear()
+    } catch (error) {
+         console.error('Error clearing AsyncStorage:', error)
+    } finally {
+      router.replace('/(auth)')
+    }
   }
 
   const deleteAccount = async () => {

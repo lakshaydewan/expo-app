@@ -24,7 +24,9 @@ export default function LoginScreen() {
     const user = await AsyncStorage.getItem('@user')
 
     // ealry return if user is already authenticated
-    if (user) return
+    if (user) {
+      router.replace('/(tabs)/foryou')
+    }
 
     if (!user) {
       if (res?.type === 'success') {
