@@ -14,7 +14,6 @@ import {
 WebBrowser.maybeCompleteAuthSession()
 
 export default function LoginScreen() {
-  const [user, setUser] = useState<any | null>(null)
 
   const [req, res, promptAsync] = Google.useAuthRequest({
     androidClientId: process.env.EXPO_PUBLIC_ANDROID_ID!,
@@ -23,6 +22,10 @@ export default function LoginScreen() {
 
   async function handleSignIn() {
     const user = await AsyncStorage.getItem('@user')
+
+    // ealry return if user is already authenticated
+    if (user) return
+
     if (!user) {
       if (res?.type === 'success') {
         try {
@@ -31,9 +34,6 @@ export default function LoginScreen() {
           console.log("Error getting user info", error)
         }
       }
-    } else {
-      console.log("User found from LocalStorage", user)
-      setUser(user)
     }
   }
 
@@ -51,7 +51,6 @@ export default function LoginScreen() {
 
       const data = await res.json()
       AsyncStorage.setItem('@user', JSON.stringify(data))
-      setUser(data)
       router.replace('/(tabs)/foryou')
     } catch (error) {
       console.log("Error getting user info from API", error)

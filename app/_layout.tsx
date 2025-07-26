@@ -24,12 +24,12 @@ export default function RootLayout() {
     const checkAuth = async () => {
       try {
         const user = await AsyncStorage.getItem('@user')
-        console.log('User from Layout:', user)
+
         if (user) {
-          console.log("HII")
           setIsAuthenticated(true)
           return
         }
+        
         if (!user) {
           return
         }
