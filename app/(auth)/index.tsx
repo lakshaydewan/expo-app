@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import * as Google from "expo-auth-session/providers/google"
 import { router, Stack } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import {
   StyleSheet,
   Text,

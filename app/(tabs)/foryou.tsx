@@ -1,7 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import { getUserId } from '@/lib/util'
-import { useFocusEffect } from 'expo-router'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Button,
@@ -28,18 +27,10 @@ export default function ForYouScreen() {
   const [newTag, setNewTag] = useState('')
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
-  const [currentUserId, setCurrentUserId] = useState<string>()
-  // Replace with real email or ID from storage
 
   useEffect(() => {
-    getUserId().then(setCurrentUserId)
+    loadPreferences()
   }, [])
-
-  useFocusEffect(
-    useCallback(() => {
-      loadPreferences()
-    }, [tags])
-  )
 
   useEffect(() => {
     if (tags.length > 0) fetchCustomFeed()
@@ -47,19 +38,20 @@ export default function ForYouScreen() {
   }, [tags])
 
   const loadPreferences = async () => {
+    const currentUserId = await getUserId()
     const { data, error } = await supabase
       .from('user_preferences')
       .select('preferred_tags')
       .eq('user_id', currentUserId)
       .single()
-    console.log('PREFS', data)
+      
     if (data) setTags(data.preferred_tags || [])
     setLoading(false)
   }
 
   const savePreferences = async (updatedTags: string[]) => {
     setTags(updatedTags)
-
+    const currentUserId = await getUserId()
     await supabase.from('user_preferences').upsert({
       user_id: currentUserId,
       preferred_tags: updatedTags
