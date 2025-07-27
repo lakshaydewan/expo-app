@@ -1,3 +1,4 @@
+import { supabase } from '@/lib/supabase'
 import { AntDesign } from '@expo/vector-icons'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import * as Google from "expo-auth-session/providers/google"
@@ -31,9 +32,25 @@ export default function LoginScreen() {
     if (!user) {
       if (res?.type === 'success') {
         try {
-          await getUserInfo(res.authentication?.accessToken as string)
+          const token = res.authentication?.accessToken
+
+          await getUserInfo(token as string)
+
+          const id_token = res.authentication?.idToken
+          const { data, error } = await supabase.auth.signInWithIdToken({
+            provider: 'google',
+            token: id_token as string,
+          })
+
+          if (error) {
+            console.error('Supabase login error:', error.message)
+          } else {
+            console.log('Supabase login success:', data)
+            await AsyncStorage.setItem('supabaseSession', JSON.stringify(data.session))
+          }
+
         } catch (error) {
-          console.log("Error getting user info", error)
+          console.log("Error During Login Flow", error);
         }
       }
     }

@@ -14,7 +14,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: "#7c3aed",
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
@@ -30,15 +30,15 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: () => <IconSymbol size={28} name="house.fill" color={'#7c3aed'} />,
         }}
       />
       <Tabs.Screen
         name="foryou"
         options={{
           title: 'For You',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="sparkles" color={color} />
+          tabBarIcon: () => (
+            <IconSymbol size={28} name="sparkles" color={'#7c3aed'} />
           ),
         }}
       />
@@ -46,8 +46,8 @@ export default function TabLayout() {
         name="create"
         options={{
           title: 'Create',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="plus.circle.fill" color={color} />
+          tabBarIcon: () => (
+            <IconSymbol size={28} name="plus.circle.fill" color={'#7c3aed'} />
           ),
         }}
       />
@@ -55,8 +55,8 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="person.crop.circle" color={color} />
+          tabBarIcon: () => (
+            <IconSymbol size={28} name="person.crop.circle" color={'#7c3aed'} />
           ),
         }}
       />
